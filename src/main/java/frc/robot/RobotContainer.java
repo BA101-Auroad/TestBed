@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.controllers.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -11,13 +16,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.subsystems.TestBed;
 
 public class RobotContainer {
-
+  private final SendableChooser<Command> autoChooser;
 //init subsystem
   private TestBed m_TestBed = new TestBed();
 //init new joystick on usb port 0
   private CommandJoystick driverJoystick = new CommandJoystick(0);
 
   public RobotContainer() {
+
   //apply set bindings
     configureBindings();
 
@@ -28,7 +34,10 @@ public class RobotContainer {
     m_TestBed.setDefaultCommand(
       new RunCommand( () -> m_TestBed.drive(driverJoystick.getDirectionDegrees(), driverJoystick.getMagnitude()),
        m_TestBed));
-
+   
+     autoChooser = AutoBuilder.buildAutoChooser();
+     SmartDashboard.putData("Auto Chooser", autoChooser);
+   
   }
 
   //contorller bindings here
@@ -36,5 +45,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
+    // return new PathPlannerAuto("Example Auto");
   }
 }
