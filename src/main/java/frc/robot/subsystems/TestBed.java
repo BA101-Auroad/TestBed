@@ -1,12 +1,15 @@
 package frc.robot.subsystems;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.team5430.util.SwerveModule;
-
+import com.pathplanner.lib.pathfinding.*;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TestBed extends SubsystemBase{
@@ -29,8 +32,17 @@ public class TestBed extends SubsystemBase{
     );
 
   }
-
-
+  public Command followPathCommand(String pathName) {
+    PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+   return new FollowPathHolonomic(path,
+    null,
+   null,
+    null,
+    null, 
+    null,       
+    null);
+    
+  }
 //constants
     private double kP = .15;
     private double driveGearRatio;
